@@ -123,6 +123,8 @@ void CameraSlider_tick()
 
 void setupMotors()
 {
+    EnableEndstopInterrupt();
+
     // Connect to motors
     stepper_slide.connectToPins(PIN_MOTOR_X_STEP, PIN_MOTOR_X_DIR);
     stepper_pan.connectToPins(PIN_MOTOR_Z_STEP, PIN_MOTOR_Z_DIR);
@@ -193,9 +195,10 @@ void CameraSlider_MoveToEnd(float xSpeed, float xAccel, float rSpeed, float rAcc
     CameraSlider_MoveToPositionAbsolute(fEndPos_Slider, xSpeed, xAccel, fEndPos_Rotation, rSpeed, rAccel);
 }
 
-
 void CameraSlider_HomeSlidingRail(void)
 {
+    DisableEndstopInterrupt();
+
     stepper_slide.setSpeedInMillimetersPerSecond(SliderConfig.Config.default_slider_speed);
     stepper_slide.setAccelerationInMillimetersPerSecondPerSecond(SliderConfig.Config.default_slider_accel);
 
@@ -226,6 +229,8 @@ void CameraSlider_HomeSlidingRail(void)
 	// Not necessary as it should already be done by above function
     stepper_slide.setCurrentPositionInMillimeters(0);
     Serial.println("done.");
+    
+    EnableEndstopInterrupt();
 }
 
 
@@ -430,3 +435,19 @@ void CameraSlider_UpdateRailLength(uint32_t rail_length)
     SliderConfig.Write();
 }
 
+void EnableEndstopInterrupt()
+{
+    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X), endstopISR, FALLING);
+}
+
+void DisableEndstopInterrupt()
+{
+    detachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X));
+}
+
+void endstopISR()
+{
+    CameraSlider_EnableMotors(false);
+
+    Serial.println("Endstop triggered! Stopped motors.");
+}
