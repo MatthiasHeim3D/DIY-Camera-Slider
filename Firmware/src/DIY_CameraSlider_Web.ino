@@ -128,6 +128,12 @@ void setupWebServer(void)
         request->send(200, "text/plain", "OK");
     });
 
+    // Release shutter request
+    server.on("/api/release-shutter", HTTP_GET, [] (AsyncWebServerRequest *request) {
+        CameraControl_ReleaseShutter();
+        request->send(200, "text/plain", "OK");
+    });
+
     // Get status
     server.on("/api/camera-slider-status", HTTP_GET, [] (AsyncWebServerRequest *request) {
         char buff[300] = {0};

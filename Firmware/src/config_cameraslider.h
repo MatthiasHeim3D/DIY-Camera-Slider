@@ -16,6 +16,8 @@
 #define PIN_MTR_nEN                 4
 #define PIN_LED 					2
 #define PIN_END_SWICH_X			    21
+#define PIN_FOCUS   			    22
+#define PIN_SHUTTER   			    23
 
 
 // "Mechanical" configuration of the camera slider
@@ -73,5 +75,14 @@ typedef enum
     MOVE_TO_STORED_POSITION_START,
     MOVE_TO_STORED_POSITION_END
 } CameraSliderMovement_t;
+
+typedef enum 
+{ 
+    CAMERA_IDLE = 0,
+    CAMERA_SHUTTER_FOCUS,    
+    CAMERA_SHUTTER_FOCUSING,
+	CAMERA_SHUTTER_RELEASE,
+	CAMERA_SHUTTER_RELEASING
+} CameraState_t;
 
 #endif

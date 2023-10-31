@@ -311,6 +311,22 @@ $(function() {
 		});
 	});
 
+	
+	$('#btnReleaseShutter').on('click', function(){
+		// Send 
+		$.ajax({
+		  url: "/api/release-shutter",
+		  type: "get", //send it through get method
+		  success: function(response) {
+		    //Do Something
+		    console.log(response);
+		  },
+		  error: function(xhr) {
+		    //Do Something to handle error
+		  }
+		});
+	});
+
 
     $('#btn_ResetSettings').on('click', function(){
         // Send

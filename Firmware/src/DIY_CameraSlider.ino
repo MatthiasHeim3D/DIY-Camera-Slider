@@ -62,10 +62,12 @@ void setup()
 	pinMode(PIN_LED, OUTPUT);
 	pinMode(PIN_MTR_nRST, OUTPUT);
 	pinMode(PIN_MTR_nEN, OUTPUT);
+	pinMode(PIN_SHUTTER, OUTPUT);
 	pinMode(PIN_END_SWICH_X, INPUT_PULLUP);
 	digitalWrite(PIN_LED, HIGH);
 	digitalWrite(PIN_MTR_nRST, HIGH);
 	digitalWrite(PIN_MTR_nEN, LOW);
+	digitalWrite(PIN_SHUTTER, HIGH);
 
 	delay(1000);
 
@@ -118,5 +120,6 @@ void loop()
 	while(1)
 	{
 		CameraSlider_tick();
+        CameraControl_tick();
 	}
 }

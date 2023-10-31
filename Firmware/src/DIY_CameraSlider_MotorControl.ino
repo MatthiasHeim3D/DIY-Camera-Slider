@@ -121,7 +121,6 @@ void CameraSlider_tick()
     }
 }
 
-
 void setupMotors()
 {
     // Connect to motors
