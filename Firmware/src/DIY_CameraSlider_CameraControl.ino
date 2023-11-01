@@ -61,7 +61,7 @@ void setPinHighAsync(int pin, int delayTime)
 void CameraControl_ReleaseShutter()
 {
     // Focus
-    setPinHighAsync(PIN_SHUTTER, 100);
+    setPinHighAsync(PIN_SHUTTER, 300);
     cameraState = CAMERA_SHUTTER_RELEASING;
 
     Serial.println("Shutter released.");
