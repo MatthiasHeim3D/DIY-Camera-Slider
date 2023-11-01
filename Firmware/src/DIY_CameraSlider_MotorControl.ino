@@ -215,6 +215,9 @@ void CameraSlider_HomeSlidingRail(void)
         // LED fast forever indicating a problem
         //
         Serial.println("Failed homing!!!");
+
+        CameraSlider_EnableMotors(false);
+        
         while(true)
         {
         	digitalWrite(PIN_LED, HIGH);
