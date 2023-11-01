@@ -16,6 +16,7 @@
 #define PIN_MTR_nEN                 4
 #define PIN_LED 					2
 #define PIN_END_SWICH_X_LEFT		34
+#define PIN_END_SWICH_X_RIGHT	    32
 #define PIN_FOCUS   			    22
 #define PIN_SHUTTER   			    23
 

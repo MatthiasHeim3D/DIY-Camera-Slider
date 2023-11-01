@@ -286,6 +286,7 @@ void CameraSlider_HomeSlidingRail(void)
     Serial.println(SliderConfig.Config.homing_direction, DEC);
     Serial.print("EndSW: ");
     Serial.println(PIN_END_SWICH_X_LEFT, DEC);
+
     if(stepper_slide.moveToHomeInMillimeters(SliderConfig.Config.homing_direction, SliderConfig.Config.homing_speed_slide, SliderConfig.Config.rail_length, PIN_END_SWICH_X_LEFT) != true)
     {
         //
@@ -519,17 +520,32 @@ void CameraSlider_UpdateRailLength(uint32_t rail_length)
 
 void EnableEndstopInterrupt()
 {
-    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X), endstopISR, FALLING);
+    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_LEFT), endstopISR_Left, FALLING);
+    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_RIGHT), endstopISR_Right, FALLING);
 }
 
 void DisableEndstopInterrupt()
 {
-    detachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X));
+    detachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_LEFT));
+    detachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_RIGHT));
 }
 
-void endstopISR()
+void endstopISR_Left()
 {
-    CameraSlider_EnableMotors(false);
+    DisableEndstopInterrupt();
 
-    Serial.println("Endstop triggered! Stopped motors.");
+    CameraSlider_EnableMotors(false);
+    Serial.println("Left Endstop triggered! Stopped motors.");
+
+    EnableEndstopInterrupt();
+}
+
+void endstopISR_Right()
+{
+    DisableEndstopInterrupt();
+
+    CameraSlider_EnableMotors(false);
+    Serial.println("Right Endstop triggered! Stopped motors.");
+
+    EnableEndstopInterrupt();
 }
