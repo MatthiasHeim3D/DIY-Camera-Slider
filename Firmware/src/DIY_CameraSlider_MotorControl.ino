@@ -206,8 +206,8 @@ void CameraSlider_HomeSlidingRail(void)
     Serial.print("Dir: ");
     Serial.println(SliderConfig.Config.homing_direction, DEC);
     Serial.print("EndSW: ");
-    Serial.println(PIN_END_SWICH_X, DEC);
-    if(stepper_slide.moveToHomeInMillimeters(SliderConfig.Config.homing_direction, SliderConfig.Config.homing_speed_slide, SliderConfig.Config.rail_length, PIN_END_SWICH_X) != true)
+    Serial.println(PIN_END_SWICH_X_LEFT, DEC);
+    if(stepper_slide.moveToHomeInMillimeters(SliderConfig.Config.homing_direction, SliderConfig.Config.homing_speed_slide, SliderConfig.Config.rail_length, PIN_END_SWICH_X_LEFT) != true)
     {
         //
         // this code is executed only if homing fails because it has moved farther
@@ -217,7 +217,7 @@ void CameraSlider_HomeSlidingRail(void)
         Serial.println("Failed homing!!!");
 
         CameraSlider_EnableMotors(false);
-        
+
         while(true)
         {
         	digitalWrite(PIN_LED, HIGH);
