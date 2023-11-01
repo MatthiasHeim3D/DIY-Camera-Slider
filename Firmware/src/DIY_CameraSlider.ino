@@ -64,10 +64,11 @@ void setup()
 	pinMode(PIN_MTR_nEN, OUTPUT);
 	pinMode(PIN_SHUTTER, OUTPUT);
 	pinMode(PIN_END_SWICH_X_LEFT, INPUT_PULLUP);
+	pinMode(PIN_END_SWICH_X_RIGHT, INPUT_PULLUP);
 	digitalWrite(PIN_LED, HIGH);
 	digitalWrite(PIN_MTR_nRST, HIGH);
 	digitalWrite(PIN_MTR_nEN, HIGH);
-	digitalWrite(PIN_SHUTTER, HIGH);
+	digitalWrite(PIN_SHUTTER, LOW);
 
 	delay(1000);
 
