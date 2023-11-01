@@ -18,6 +18,7 @@ float fRotationPos        = 0.0;
 float stepDist = 0;
 int currentStep = 0;
 int maxSteps = 0;
+float startPos = 0;
 
 // Start and stop positions
 float fStartPos_Slider    = 0.0;
@@ -127,6 +128,10 @@ void CameraSlider_tick()
             }
         break;
 
+        case SLIDER_STEP_FINISHED:
+            ProcessStepping();
+        break;
+
         case SLIDER_STEPPING:
             if((!stepper_slide.motionComplete()))
             {
@@ -134,7 +139,7 @@ void CameraSlider_tick()
             }
             else
             {
-                ProcessStepping();
+                sliderState = SLIDER_STEP_FINISHED;
             }
         break;
 
@@ -229,8 +234,9 @@ void CameraSlider_StartStepping()
     // floor to int
     currentStep = 0;
     maxSteps = floor(dist/stepDist);
+    startPos = abs(getSliderPos());
 
-    sliderState = SLIDER_STEPPING;
+    ProcessStepping();
 }
 
 void ProcessStepping()
@@ -248,20 +254,25 @@ void ProcessStepping()
 
         return;
     }
+    
+    delay(200);
+    CameraControl_ReleaseShutter();
+    delay(500);
 
-    //delay(100);
-    //CameraControl_ReleaseShutter();
+    // getSliderPos seems to be unreliable, counting the position myself
+    //float startPos = getSliderPos();
 
-    // abs is workaround for slider direction
-    float nextPos = getSliderPos() + (currentStep * stepDist);
+    float nextPos = startPos + (currentStep * stepDist);
     CameraSlider_MoveToPositionAbsoluteStep(nextPos, 4, 20);
+
+    sliderState = SLIDER_STEPPING;
     
     Serial.print("Started step ");
     Serial.print(currentStep);
     Serial.print(" / ");
-    Serial.print(maxSteps);    
-    Serial.print(", Targetpos: "); 
-    Serial.println(nextPos);  
+    Serial.print(maxSteps); 
+    Serial.print(", Target Pos: "); 
+    Serial.println(nextPos);
 }
 
 void CameraSlider_MoveToStart(float xSpeed, float xAccel, float rSpeed, float rAccel)

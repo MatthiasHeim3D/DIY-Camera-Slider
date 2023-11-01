@@ -53,6 +53,7 @@ typedef enum
     SLIDER_READY,
     SLIDER_WORKING,    
     SLIDER_STEPPING,
+    SLIDER_STEP_FINISHED,
     SLIDER_LAST
 } sliderState_t;
 
@@ -66,6 +67,7 @@ const char* sliderStateStr[] = {
     "SLIDER_READY",
     "SLIDER_WORKING",
     "SLIDER_STEPPING",
+    "SLIDER_STEP_FINISHED",
     "SLIDER_LAST"
 };
 
