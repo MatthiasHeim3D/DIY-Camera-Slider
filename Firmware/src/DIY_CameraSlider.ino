@@ -66,7 +66,7 @@ void setup()
 	pinMode(PIN_END_SWICH_X, INPUT_PULLUP);
 	digitalWrite(PIN_LED, HIGH);
 	digitalWrite(PIN_MTR_nRST, HIGH);
-	digitalWrite(PIN_MTR_nEN, LOW);
+	digitalWrite(PIN_MTR_nEN, HIGH);
 	digitalWrite(PIN_SHUTTER, HIGH);
 
 	delay(1000);
