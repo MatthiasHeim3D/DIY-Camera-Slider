@@ -128,6 +128,12 @@ void setupWebServer(void)
         request->send(200, "text/plain", "OK");
     });
 
+    // Start stepping
+    server.on("/api/start-stepping", HTTP_GET, [] (AsyncWebServerRequest *request) {
+        CameraSlider_StartStepping();
+        request->send(200, "text/plain", "OK");
+    });
+
     // Release shutter request
     server.on("/api/release-shutter", HTTP_GET, [] (AsyncWebServerRequest *request) {
         CameraControl_ReleaseShutter();

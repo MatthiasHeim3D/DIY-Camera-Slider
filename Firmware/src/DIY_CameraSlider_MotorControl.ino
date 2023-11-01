@@ -9,10 +9,15 @@ FlexyStepper stepper_pan;
 
 // Internal state variables
 sliderState_t sliderState = SLIDER_IDLE;
+sliderState_t prev_sliderState = SLIDER_IDLE;
 bool bmotorState          = true;
 bool bhomingComplete      = false;
 float fSliderPos          = 0.0;
 float fRotationPos        = 0.0;
+
+float stepDist = 0;
+int currentStep = 0;
+int maxSteps = 0;
 
 // Start and stop positions
 float fStartPos_Slider    = 0.0;
@@ -34,6 +39,12 @@ uint32_t slideDurationSec = 1;
 // or trough interrupts.
 void CameraSlider_tick()
 {
+    if(sliderState != prev_sliderState)
+    {
+        Serial.println(sliderStateStr[sliderState]);
+        prev_sliderState = sliderState;
+    }
+
     switch(sliderState)
     {
         case SLIDER_MOTORS_OFF:
@@ -116,6 +127,17 @@ void CameraSlider_tick()
             }
         break;
 
+        case SLIDER_STEPPING:
+            if((!stepper_slide.motionComplete()))
+            {
+                stepper_slide.processMovement();
+            }
+            else
+            {
+                ProcessStepping();
+            }
+        break;
+
         default:
         return;
     }
@@ -183,6 +205,63 @@ void CameraSlider_MoveToPositionAbsolute(float xPos, float xSpeed, float xAccel,
 
     // Updatestate machine
     sliderState = SLIDER_WORKING;
+}
+
+// Copy of CameraSlider_MoveToPositionAbsolute without changing sliderState, refactor sometime
+void CameraSlider_MoveToPositionAbsoluteStep(float xPos, float xSpeed, float xAccel)
+{
+    // Invert slider or pan motor if necessary
+    xPos = SliderConfig.Config.slider_direction * xPos;
+
+    // Setup slider
+    stepper_slide.setTargetPositionInMillimeters(xPos);
+    stepper_slide.setSpeedInMillimetersPerSecond(xSpeed);
+    stepper_slide.setAccelerationInMillimetersPerSecondPerSecond(xAccel);
+}
+
+void CameraSlider_StartStepping()
+{
+    Serial.println("Start Stepping");
+
+    float dist = 60;
+    stepDist = 20;
+
+    // floor to int
+    currentStep = 0;
+    maxSteps = floor(dist/stepDist);
+
+    sliderState = SLIDER_STEPPING;
+}
+
+void ProcessStepping()
+{
+    currentStep += 1;
+
+    if(currentStep > maxSteps)
+    {
+        sliderState = SLIDER_IDLE;
+
+        currentStep = 0;
+        maxSteps = 0;
+        
+        Serial.println("Reached final step, stopped stepping");
+
+        return;
+    }
+
+    //delay(100);
+    //CameraControl_ReleaseShutter();
+
+    // abs is workaround for slider direction
+    float nextPos = getSliderPos() + (currentStep * stepDist);
+    CameraSlider_MoveToPositionAbsoluteStep(nextPos, 4, 20);
+    
+    Serial.print("Started step ");
+    Serial.print(currentStep);
+    Serial.print(" / ");
+    Serial.print(maxSteps);    
+    Serial.print(", Targetpos: "); 
+    Serial.println(nextPos);  
 }
 
 void CameraSlider_MoveToStart(float xSpeed, float xAccel, float rSpeed, float rAccel)

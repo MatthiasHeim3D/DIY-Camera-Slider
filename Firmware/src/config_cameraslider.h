@@ -50,9 +50,23 @@ typedef enum
     SLIDER_MOVING_TO_START,
     SLIDER_MOVING_TO_END,
     SLIDER_READY,
-    SLIDER_WORKING,
+    SLIDER_WORKING,    
+    SLIDER_STEPPING,
     SLIDER_LAST
 } sliderState_t;
+
+const char* sliderStateStr[] = {
+    "SLIDER_FIRST",
+    "SLIDER_MOTORS_OFF",
+    "SLIDER_IDLE",
+    "SLIDER_HOMING",
+    "SLIDER_MOVING_TO_START",
+    "SLIDER_MOVING_TO_END",
+    "SLIDER_READY",
+    "SLIDER_WORKING",
+    "SLIDER_STEPPING",
+    "SLIDER_LAST"
+};
 
 
 typedef enum

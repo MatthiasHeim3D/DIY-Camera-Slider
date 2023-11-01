@@ -311,6 +311,27 @@ $(function() {
 		});
 	});
 
+	$('#btnStartStepping').on('click', function(){
+        // var xSpeed = $("#cfgSliderSpeed").val();
+        // var xAccel = $("#cfgSliderAccel").val();
+        // var rSpeed = $("#cfgRotationSpeed").val();
+        // var rAccel = $("#cfgRotationAccel").val();
+
+		// Send 
+		$.ajax({
+		  url: "/api/start-stepping",
+		  type: "get", //send it through get method
+		  success: function(response) {
+		    //Do Something
+		    console.log(response);
+		  },
+		  error: function(xhr) {
+		    //Do Something to handle error
+		    console.log(xhr);
+		  }
+		});
+	});
+
 	
 	$('#btnReleaseShutter').on('click', function(){
 		// Send 
@@ -585,5 +606,6 @@ var sliderStates =
     'SLIDER_MOVING_TO_END',
     'SLIDER_READY',
     'SLIDER_WORKING',
+	'SLIDER_STEPPING',
     'SLIDER_LAST'
 ];
