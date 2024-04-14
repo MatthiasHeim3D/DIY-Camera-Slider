@@ -32,7 +32,7 @@
 
 // Positioning and speed default values
 // In normal operation, these values will get overwritten by HTTP request
-#define DEFAULT_SLIDE_TO_POS_SPEED  30.0
+#define DEFAULT_SLIDE_TO_POS_SPEED  6.0
 #define DEFAULT_SLIDE_TO_POS_ACCEL  60.0
 #define DEFAULT_ROTATE_TO_POS_SPEED 30.0
 #define DEFAULT_ROTATE_TO_POS_ACCEL 60.0
