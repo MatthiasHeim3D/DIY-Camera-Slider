@@ -79,7 +79,7 @@ void setup()
 
 	// Setup motors
 	setupMotors();
-	CameraSlider_EnableMotors(true);
+	CameraSlider_EnableMotors(false);
 	digitalWrite(PIN_LED, LOW);
 
     // Initialize Web server
