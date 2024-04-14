@@ -231,8 +231,8 @@ void CameraSlider_StartStepping()
 {
     Serial.println("Start Stepping");
 
-    float dist = 60;
-    stepDist = 20;
+    float dist = 550;
+    stepDist = 2;
 
     // floor to int
     currentStep = 0;
@@ -261,7 +261,7 @@ void ProcessStepping()
         return;
     }
     
-    delay(200);
+    delay(600);
     CameraControl_ReleaseShutter();
     delay(500);
 
