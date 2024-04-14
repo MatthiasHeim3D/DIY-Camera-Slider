@@ -21,7 +21,6 @@ class PersistSettings{
         void ResetToDefault(void);
         bool Valid(void);
 };
-#endif
 
 // PersistSettings Constructor
 // Use the Config structure as the class template for the object.
@@ -138,3 +137,4 @@ uint16_t PersistSettings<T>::CRC16(byte *data, size_t data_len){
   }
   return crc;
 }
+#endif

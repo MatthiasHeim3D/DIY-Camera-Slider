@@ -4,6 +4,7 @@ Description: This file contains the main loop for the camera control.
 */
 
 #include <Arduino.h>
+#include "DIY_CameraSlider_CameraControl.h"
 
 // Internal state variables
 CameraState_t cameraState = CAMERA_IDLE;
@@ -33,13 +34,6 @@ void CameraControl_tick()
     }
 }
 
-struct PinDelayParameters
-{
-    int pin;
-    int delayTime;
-};
-
-
 void setPinHigh(void *parameter)
 {
     PinDelayParameters *pinDelayParams = (PinDelayParameters *)parameter;
@@ -48,7 +42,6 @@ void setPinHigh(void *parameter)
     digitalWrite(pinDelayParams->pin, LOW);
     vTaskDelete(NULL); // Delete the task after it is done
 }
-
 
 void setPinHighAsync(int pin, int delayTime)
 {
