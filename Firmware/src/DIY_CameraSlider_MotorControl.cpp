@@ -535,8 +535,8 @@ void CameraSlider_UpdateRailLength(uint32_t rail_length)
 
 void EnableEndstopInterrupt()
 {
-    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_LEFT), endstopISR_Left, FALLING);
-    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_RIGHT), endstopISR_Right, FALLING);
+    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_LEFT), endstopISR_Left, RISING);
+    attachInterrupt(digitalPinToInterrupt(PIN_END_SWICH_X_RIGHT), endstopISR_Right, RISING);
 }
 
 void DisableEndstopInterrupt()
