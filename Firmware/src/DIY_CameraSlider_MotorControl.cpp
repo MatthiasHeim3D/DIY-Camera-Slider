@@ -173,7 +173,6 @@ void setupMotors()
     // -- Revolution in steps
     stepper_pan.setSpeedInStepsPerSecond(SliderConfig.Config.pan_steps_per_degree);
     stepper_pan.setAccelerationInStepsPerSecondPerSecond(SliderConfig.Config.default_slider_accel * SliderConfig.Config.pan_steps_per_degree);
-
 }
 
 void CameraSlider_MoveToPositionRelative(float xPos, float xSpeed, float xAccel, float rAngle, float rSpeed, float rAccel)
@@ -293,7 +292,7 @@ void CameraSlider_HomeSlidingRail(void)
 {
     DisableEndstopInterrupt();
 
-    stepper_slide.setSpeedInMillimetersPerSecond(SliderConfig.Config.default_slider_speed);
+    stepper_slide.setSpeedInMillimetersPerSecond(SliderConfig.Config.homing_speed_slide);
     stepper_slide.setAccelerationInMillimetersPerSecondPerSecond(SliderConfig.Config.default_slider_accel);
 
     Serial.println("Homing linear rail");
@@ -321,11 +320,19 @@ void CameraSlider_HomeSlidingRail(void)
         	delay(200);
         }
     }
+
+    // Move 1mm away from endstop to avoid falsely triggering it again due to bouncing when starting next move
+    stepper_slide.setSpeedInMillimetersPerSecond(SliderConfig.Config.homing_speed_slide);
+    stepper_slide.setAccelerationInMillimetersPerSecondPerSecond(SliderConfig.Config.default_slider_accel);
+    stepper_slide.setTargetPositionInMillimeters(-2.0);
+    while(!stepper_slide.processMovement()) { }
+
+    // Reset homed position to 0
+    stepper_slide.setCurrentPositionInMillimeters(0.0);
+
     sliderState = SLIDER_READY;
     bhomingComplete = true;
 
-	// Not necessary as it should already be done by above function
-    stepper_slide.setCurrentPositionInMillimeters(0);
     Serial.println("done.");
     
     EnableEndstopInterrupt();
