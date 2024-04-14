@@ -515,6 +515,9 @@ function readStatus(){
 	    var jsonResponse = jQuery.parseJSON(response);
 
 	    // Current position and rotation
+	    $('#slider-state').text(jsonResponse.state);
+
+	    // Current position and rotation
 	    $('#status-position').text(jsonResponse.posX);
 	    $('#status-rotation').text(jsonResponse.posZ);
 
