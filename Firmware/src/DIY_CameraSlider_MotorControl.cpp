@@ -239,6 +239,7 @@ void CameraSlider_StartStepping()
     maxSteps = floor(dist/stepDist);
     startPos = abs(getSliderPos());
 
+    CameraSlider_EnableMotors(true);
     ProcessStepping();
 }
 
@@ -252,6 +253,8 @@ void ProcessStepping()
 
         currentStep = 0;
         maxSteps = 0;
+
+        CameraSlider_EnableMotors(false);
         
         Serial.println("Reached final step, stopped stepping");
 
