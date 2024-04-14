@@ -302,7 +302,7 @@ void CameraSlider_HomeSlidingRail(void)
     Serial.print("EndSW: ");
     Serial.println(PIN_END_SWICH_X_LEFT, DEC);
 
-    if(stepper_slide.moveToHomeInMillimeters(SliderConfig.Config.homing_direction, SliderConfig.Config.homing_speed_slide, SliderConfig.Config.rail_length, PIN_END_SWICH_X_LEFT) != true)
+    if(stepper_slide.moveToHomeInMillimeters(SliderConfig.Config.homing_direction, SliderConfig.Config.homing_speed_slide, SliderConfig.Config.rail_length, PIN_END_SWICH_X_LEFT, LOW) != true)
     {
         //
         // this code is executed only if homing fails because it has moved farther

@@ -56,7 +56,7 @@ class FlexyStepper
     void setCurrentPositionInMillimeter(float currentPositionInMillimeter);
     void setSpeedInMillimetersPerSecond(float speedInMillimetersPerSecond);
     void setAccelerationInMillimetersPerSecondPerSecond(float accelerationInMillimetersPerSecondPerSecond);
-    bool moveToHomeInMillimeters(long directionTowardHome, float speedInMillimetersPerSecond, long maxDistanceToMoveInMillimeters, int homeLimitSwitchPin);
+    bool moveToHomeInMillimeters(long directionTowardHome, float speedInMillimetersPerSecond, long maxDistanceToMoveInMillimeters, int homeLimitSwitchPin, int limitSwitchTriggerState);
     void moveRelativeInMillimeters(float distanceToMoveInMillimeters);
     void setTargetPositionRelativeInMillimeters(float distanceToMoveInMillimeters);
     void moveToPositionInMillimeters(float absolutePositionToMoveToInMillimeters);
@@ -68,7 +68,7 @@ class FlexyStepper
     float getCurrentPositionInRevolutions();
     void setSpeedInRevolutionsPerSecond(float speedInRevolutionsPerSecond);
     void setAccelerationInRevolutionsPerSecondPerSecond(float accelerationInRevolutionsPerSecondPerSecond);
-    bool moveToHomeInRevolutions(long directionTowardHome, float speedInRevolutionsPerSecond, long maxDistanceToMoveInRevolutions, int homeLimitSwitchPin);
+    bool moveToHomeInRevolutions(long directionTowardHome, float speedInRevolutionsPerSecond, long maxDistanceToMoveInRevolutions, int homeLimitSwitchPin, int limitSwitchTriggerState);
     void moveRelativeInRevolutions(float distanceToMoveInRevolutions);
     void setTargetPositionRelativeInRevolutions(float distanceToMoveInRevolutions);
     void moveToPositionInRevolutions(float absolutePositionToMoveToInRevolutions);
@@ -79,7 +79,7 @@ class FlexyStepper
     long getCurrentPositionInSteps();
     void setSpeedInStepsPerSecond(float speedInStepsPerSecond);
     void setAccelerationInStepsPerSecondPerSecond(float accelerationInStepsPerSecondPerSecond);
-    bool moveToHomeInSteps(long directionTowardHome, float speedInStepsPerSecond, long maxDistanceToMoveInSteps, int homeSwitchPin);
+    bool moveToHomeInSteps(long directionTowardHome, float speedInStepsPerSecond, long maxDistanceToMoveInSteps, int homeSwitchPin, int limitSwitchTriggerState);
     void moveRelativeInSteps(long distanceToMoveInSteps);
     void setTargetPositionRelativeInSteps(long distanceToMoveInSteps);
     void moveToPositionInSteps(long absolutePositionToMoveToInSteps);

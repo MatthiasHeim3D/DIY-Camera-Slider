@@ -336,12 +336,12 @@ void FlexyStepper::setAccelerationInMillimetersPerSecondPerSecond(
 //
 bool FlexyStepper::moveToHomeInMillimeters(long directionTowardHome,  
   float speedInMillimetersPerSecond, long maxDistanceToMoveInMillimeters, 
-  int homeLimitSwitchPin)
+  int homeLimitSwitchPin, int limitSwitchTriggerState)
 {
   return(moveToHomeInSteps(directionTowardHome, 
                           speedInMillimetersPerSecond * stepsPerMillimeter, 
                           maxDistanceToMoveInMillimeters * stepsPerMillimeter, 
-                          homeLimitSwitchPin));
+                          homeLimitSwitchPin, limitSwitchTriggerState));
 }
 
 
@@ -507,12 +507,12 @@ void FlexyStepper::setAccelerationInRevolutionsPerSecondPerSecond(
 //
 bool FlexyStepper::moveToHomeInRevolutions(long directionTowardHome,  
   float speedInRevolutionsPerSecond, long maxDistanceToMoveInRevolutions, 
-  int homeLimitSwitchPin)
+  int homeLimitSwitchPin, int limitSwitchTriggerState)
 {
   return(moveToHomeInSteps(directionTowardHome, 
                           speedInRevolutionsPerSecond * stepsPerRevolution, 
                           maxDistanceToMoveInRevolutions * stepsPerRevolution, 
-                          homeLimitSwitchPin));
+                          homeLimitSwitchPin, limitSwitchTriggerState));
 }
 
 
@@ -666,14 +666,19 @@ void FlexyStepper::setAccelerationInStepsPerSecondPerSecond(
 //            home before giving up
 //          homeSwitchPin = pin number of the home switch, switch should be 
 //            configured to go low when at home
+//          triggerState = state of the switch that indicates it is at home (HIGH / LOW)
 //  Exit:   true returned if successful, else false
 //
 bool FlexyStepper::moveToHomeInSteps(long directionTowardHome,  
   float speedInStepsPerSecond, long maxDistanceToMoveInSteps, 
-  int homeLimitSwitchPin)
+  int homeLimitSwitchPin, int limitSwitchTriggerState)
 {
   float originalDesiredSpeed_InStepsPerSecond;
   bool limitSwitchFlag;
+
+
+  int triggerHIGH = limitSwitchTriggerState;
+  int triggerLOW = 1 - limitSwitchTriggerState;
   
   
   //
@@ -691,7 +696,7 @@ bool FlexyStepper::moveToHomeInSteps(long directionTowardHome,
   //
   // if the home switch is not already set, move toward it
   //
-  if (digitalRead(homeLimitSwitchPin) == HIGH)
+  if (digitalRead(homeLimitSwitchPin) == triggerHIGH)
   {
     //
     // move toward the home switch
@@ -701,7 +706,7 @@ bool FlexyStepper::moveToHomeInSteps(long directionTowardHome,
     limitSwitchFlag = false;
     while(!processMovement())
     {
-      if (digitalRead(homeLimitSwitchPin) == LOW)
+      if (digitalRead(homeLimitSwitchPin) == triggerLOW)
       {
         limitSwitchFlag = true;
         directionOfMotion = 0;
@@ -726,7 +731,7 @@ bool FlexyStepper::moveToHomeInSteps(long directionTowardHome,
   limitSwitchFlag = false;
   while(!processMovement())
   {
-    if (digitalRead(homeLimitSwitchPin) == HIGH)
+    if (digitalRead(homeLimitSwitchPin) == triggerHIGH)
     {
       limitSwitchFlag = true;
       directionOfMotion = 0;
@@ -750,7 +755,7 @@ bool FlexyStepper::moveToHomeInSteps(long directionTowardHome,
   limitSwitchFlag = false;
   while(!processMovement())
   {
-    if (digitalRead(homeLimitSwitchPin) == LOW)
+    if (digitalRead(homeLimitSwitchPin) == triggerLOW)
     {
       limitSwitchFlag = true;
       directionOfMotion = 0;
