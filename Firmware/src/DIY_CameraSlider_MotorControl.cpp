@@ -293,7 +293,11 @@ void CameraSlider_MoveToEnd(float xSpeed, float xAccel, float rSpeed, float rAcc
 
 void CameraSlider_HomeSlidingRail(void)
 {
+    Serial.println("Homing...");
+
     DisableEndstopInterrupt();
+
+    CameraSlider_EnableMotors(true);
 
     stepper_slide.setSpeedInMillimetersPerSecond(SliderConfig.Config.homing_speed_slide);
     stepper_slide.setAccelerationInMillimetersPerSecondPerSecond(SliderConfig.Config.default_slider_accel);
@@ -336,6 +340,8 @@ void CameraSlider_HomeSlidingRail(void)
     sliderState = SLIDER_READY;
     bhomingComplete = true;
 
+    CameraSlider_EnableMotors(false);
+
     Serial.println("done.");
     
     EnableEndstopInterrupt();
@@ -350,11 +356,6 @@ bool CameraSlider_getMotorState()
 
 bool CameraSlider_SetState(sliderState_t newState)
 {
-    if(bmotorState == false)
-    {
-        return false;
-    }
-
     if(newState <= SLIDER_FIRST)
     {
         Serial.println("Invalid state requested! (state <= SLIDER_FIRST)");
@@ -388,7 +389,6 @@ void CameraSlider_EnableMotors(bool enable)
         digitalWrite(PIN_MTR_nEN, HIGH);
         bmotorState = false;
         CameraSlider_SetState(SLIDER_MOTORS_OFF);
-        bhomingComplete = false;
     }
 }
 
